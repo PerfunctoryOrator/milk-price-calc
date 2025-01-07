@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html lang = "en-in">
+    <head>
+        <meta charset = "utf-8" />
+        <title> Milk Price Calculator </title>
+        <style>
+            :root {
+                --dark-grey: rgb(40, 40, 40);
+                --off-white: rgb(245, 245, 245);
+                --steel-blue: rgb(70, 130, 180);
+                --deep-coral: rgb(205, 92, 68);
+            }
+
+            body, input, button {
+                font-family: system-ui;
+                font-size: 1em;
+                font-weight: bold;
+                padding: 8px;
+            }
+            input, button {
+                font-family: ui-monospace, system-ui;
+                border: 2px solid gainsboro;
+                padding: 8px 20px;
+            }
+            input:read-only {text-align: center;}
+            button {
+                background-color: white;
+                margin-right: 20px;
+            }
+            button:hover:not(.inactiveButton) {
+                background-color: var(--off-white);
+            }
+            h1 {
+                text-align: center;
+                text-decoration: underline;
+            }
+            h3 {
+                display: inline-block;
+                margin-left: 20px;
+                margin-right: 2em;
+            }
+            table {margin-bottom: 16px;}
+            table td, table th {padding: 8px 20px;}
+            th, h3 {font-size: 1.3em;}
+
+            .inactiveButton {
+                color: grey;
+                background-color: gainsboro;
+            }
+
+            #totalMilk, #readTotalMilk {color: coral;}
+            #milkRate, #readMilkRate {color: var(--steel-blue);}
+            #grossAmount, #readGrossAmount {color: darkkhaki;}
+            #outstandingAmount, #readOutstandingAmount {color: green;}
+            #netPayable {color: goldenrod;}
+
+            @media (prefers-color-scheme: dark) {
+                body, input, button {
+                    color: var(--off-white);
+                    background-color: var(--dark-grey);
+                }
+                button:hover:not(.inactiveButton) {
+                    background-color: black;
+                }
+                #totalMilk, #readTotalMilk {color: var(--deep-coral);}
+                #milkRate, #readMilkRate {color: skyblue;}
+                #grossAmount, #readGrossAmount {color: cornsilk;}
+                #outstandingAmount, #readOutstandingAmount {color: greenyellow;}
+                #netPayable {color: gold;}
+            }
+        </style>
+    </head>
+    <body style = "overflow: hidden; width: max-content;">
+        <h1 title = "User-editable (click between the brackets to edit)"> दूध का हिसाब (<span contenteditable></span>) </h1>
+        <table>
+            <thead> <tr>
+                <th> लीटर (L) </th>
+                <th> दिन </th>
+                <th> योग (Total) </th>
+            </tr> </thead>
+            <tbody id = "milkRecordTable"></tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        <button id = "addRowButton" onclick = "addRowToTable()"> + </button>
+                        <button class = "inactiveButton" id = "removeRowButton" onclick = "removeRowFromTable()"> − </button>
+                    </td>
+                    <th style = "text-align: right;"> कुल दूध (Total Milk): </th>
+                    <td> <input id = "totalMilk" readonly /> </td>
+                </tr>
+            </tfoot>
+        </table>
+        <div>
+            <div>
+                <h3> Milk Rate: </h3>
+                <input id = "milkRate" type = "number" value = "55" placeholder = "55" />
+                <span style = "margin-left: 20px;"> ₹L<sup>−1</sup> </span>
+            </div>
+            <div>
+                <h3> बकाया राशि (Outstanding Amount): </h3>
+                ₹ <input id = "outstandingAmount" type = "number" placeholder = "0" />
+            </div>
+            <button style = "font-family: system-ui; margin: 0px 20px 40px 20px;" onclick = "updateValues()"> Calculate Net Payable Amount </button>
+            <div>
+                <h3> Gross Amount: </h3>
+                <span style = "margin-right: 2em;"> ₹ <input id = "readMilkRate" readonly /> × <input id = "readTotalMilk" readonly /> = </span>
+                ₹ <input id = "grossAmount" readonly />
+            </div>
+            <div>
+                <h3> Net Payable:
+                    <span style = "margin-right: 2em;"> ₹ ( <input id = "readGrossAmount" readonly /> − <input id = "readOutstandingAmount" readonly /> ) = </span>
+                    ₹ <input id = "netPayable" readonly />
+                </h3>
+            </div>
+            <h3 id = "stillOutstandingAmount"></h3>
+        </div>
+        <h4 style = "position: static; bottom: 0px; color: gainsboro;"> <i> Designed by Yashdeep Singh Fauzdar. </i> </h4>
+        <script>
+            function updateValues() {
+                let totalMilk = 0;
+                for (let i = 1; i <= noOfRows; i++) {
+                    let milkAmount = Number(document.getElementById(`milkAmount${i}`).value);
+                    if (milkAmount < 0) {milkAmount = 0;}
+                    let noOfDays = Number(document.getElementById(`noOfDays${i}`).value);
+                    if (noOfDays < 0) {noOfDays = 0;}
+                    if (noOfDays > 31) {noOfDays = 31;}
+                    let totalInRow = milkAmount * noOfDays;
+                    document.getElementById(`milkAmount${i}`).value = milkAmount;
+                    document.getElementById(`noOfDays${i}`).value = noOfDays;
+                    document.getElementById(`totalInRow${i}`).value = totalInRow;
+                    totalMilk += totalInRow;
+                }
+                let milkRate = Number(document.getElementById("milkRate").value);
+                if (milkRate < 0) {milkRate = 55;}
+                let outstandingAmount = Number(document.getElementById("outstandingAmount").value);
+                let grossAmount = milkRate * totalMilk;
+                let netPayable = grossAmount - outstandingAmount;
+                document.getElementById("stillOutstandingAmount").innerText = "";
+
+                if (netPayable < 0) {
+                    document.getElementById("stillOutstandingAmount").innerText = `₹${-netPayable} will stand as outstanding amount (बकाया राशि) after the transaction takes place.`;
+                    netPayable = 0;
+                }
+
+                document.getElementById("milkRate").value = milkRate;
+                document.getElementById("outstandingAmount").value = outstandingAmount;
+
+                document.getElementById("totalMilk").value = totalMilk;
+
+                document.getElementById("readMilkRate").value = milkRate;
+                document.getElementById("readTotalMilk").value = totalMilk;
+                document.getElementById("grossAmount").value = grossAmount;
+
+                document.getElementById("readGrossAmount").value = grossAmount;
+                document.getElementById("readOutstandingAmount").value = outstandingAmount;
+                document.getElementById("netPayable").value = netPayable;
+            }
+
+            function addRowToTable() {
+                noOfRows += 1;
+                const row = document.createElement("tr");
+                row.id = `rowNo${noOfRows}`;
+                row.innerHTML = `
+                    <td> <input id = "milkAmount${noOfRows}" type = "number" placeholder = "0" /> </td>
+                    <td> <input id = "noOfDays${noOfRows}" type = "number" placeholder = "0" /> </td>
+                    <td> <input id = "totalInRow${noOfRows}" placeholder = "0" readonly /> </td>`;
+                document.getElementById("milkRecordTable").appendChild(row);
+                if (noOfRows == 2) {
+                    document.getElementById("removeRowButton").removeAttribute("class");
+                }
+            }
+            function removeRowFromTable() {
+                if (noOfRows > 1) {
+                    document.getElementById(`rowNo${noOfRows}`).remove();
+                    noOfRows -= 1;
+                    if (noOfRows == 1) {
+                        document.getElementById("removeRowButton").setAttribute("class", "inactiveButton");
+                    }
+                }
+            }
+
+            let noOfRows = 0;
+            addRowToTable();
+            updateValues();
+        </script>
+    </body>
+</html>
