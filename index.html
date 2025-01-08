@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 
-<html lang = "en-in">
+<html id = "html">
     <head>
         <meta charset = "utf-8" />
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1.0" />
         <title> Milk Price Calculator </title>
+        <link rel = "canonical" href = "index.html" />
+        <link rel = "icon" type = "image/png" href = "milk-glass.png" />
         <style>
             :root {
                 --dark-grey: rgb(40, 40, 40);
@@ -35,7 +38,7 @@
                 text-align: center;
                 text-decoration: underline;
             }
-            h3 {
+            h3, h4 {
                 display: inline-block;
                 margin-left: 20px;
                 margin-right: 2em;
@@ -71,52 +74,104 @@
             }
         </style>
     </head>
-    <body style = "overflow: hidden; width: max-content;">
-        <h1 title = "User-editable (click between the brackets to edit)"> दूध का हिसाब (<span contenteditable></span>) </h1>
+    <body style = "width: max-content;">
+        <h1 id = "header"></h1>
         <table>
             <thead> <tr>
-                <th> लीटर (L) </th>
-                <th> दिन </th>
-                <th> योग (Total) </th>
+                <th id = "th1"></th>
+                <th id = "th2"></th>
+                <th id = "th3"></th>
             </tr> </thead>
             <tbody id = "milkRecordTable"></tbody>
             <tfoot>
                 <tr>
                     <td>
-                        <button id = "addRowButton" onclick = "addRowToTable()"> + </button>
+                        <button onclick = "addRowToTable()"> + </button>
                         <button class = "inactiveButton" id = "removeRowButton" onclick = "removeRowFromTable()"> − </button>
                     </td>
-                    <th style = "text-align: right;"> कुल दूध (Total Milk): </th>
+                    <th id = "thTotal" style = "text-align: right;"></th>
                     <td> <input id = "totalMilk" readonly /> </td>
                 </tr>
             </tfoot>
         </table>
         <div>
             <div>
-                <h3> Milk Rate: </h3>
-                <input id = "milkRate" type = "number" value = "55" placeholder = "55" />
+                <h3 id = "askRate"></h3>
+                <input id = "milkRate" type = "number" value = "55" placeholder = "0" />
                 <span style = "margin-left: 20px;"> ₹L<sup>−1</sup> </span>
             </div>
             <div>
-                <h3> बकाया राशि (Outstanding Amount): </h3>
+                <h3 id = "askOutstanding"></h3>
                 ₹ <input id = "outstandingAmount" type = "number" placeholder = "0" />
             </div>
-            <button style = "font-family: system-ui; margin: 0px 20px 40px 20px;" onclick = "updateValues()"> Calculate Net Payable Amount </button>
+            <button id = "buttonCalculate" style = "font-family: system-ui; margin: 0px 20px 40px 20px;" onclick = "updateValues()"></button>
             <div>
-                <h3> Gross Amount: </h3>
+                <h3 id = "tellGross"></h3>
                 <span style = "margin-right: 2em;"> ₹ <input id = "readMilkRate" readonly /> × <input id = "readTotalMilk" readonly /> = </span>
                 ₹ <input id = "grossAmount" readonly />
             </div>
             <div>
-                <h3> Net Payable:
-                    <span style = "margin-right: 2em;"> ₹ ( <input id = "readGrossAmount" readonly /> − <input id = "readOutstandingAmount" readonly /> ) = </span>
-                    ₹ <input id = "netPayable" readonly />
-                </h3>
+                <h3 id = "tellNet"></h3>
+                <h3 style = "margin-right: 2em;"> ₹ ( <input id = "readGrossAmount" readonly /> − <input id = "readOutstandingAmount" readonly /> ) = </h3>
+                <h3> ₹ <input id = "netPayable" readonly /> </h3>
             </div>
             <h3 id = "stillOutstandingAmount"></h3>
         </div>
-        <h4 style = "position: static; bottom: 0px; color: gainsboro;"> <i> Designed by Yashdeep Singh Fauzdar. </i> </h4>
+        <div id = "setLang" style = "margin-left: 20px;"></div>
+        <h4 style = "position: static; bottom: 0px; color: gainsboro;"> <i id = "credits"></i> </h4>
         <script>
+            function setLanguageTo(lang) {
+                if (lang == "en-in") {
+                    document.getElementById("html").lang = "en-in";
+
+                    document.getElementById("header").title = "User-editable (click between the brackets to edit)";
+                    document.getElementById("header").innerHTML = "Milk Account (<span contenteditable></span>)";
+
+                    document.getElementById("th1").innerText = "Quantity (L)";
+                    document.getElementById("th2").innerText = "No. of Days";
+                    document.getElementById("th3").innerText = "Total";
+                    document.getElementById("thTotal").innerText = "Total Milk:";
+
+                    document.getElementById("askRate").innerText = "Milk Rate:";
+                    document.getElementById("askOutstanding").innerText = "Outstanding Amount:";
+
+                    document.getElementById("buttonCalculate").innerText = "Calculate Net Payable Amount";
+                    document.getElementById("tellGross").innerText = "Gross Amount:";
+                    document.getElementById("tellNet").innerText = "Net Payable:";
+
+                    document.getElementById("setLang").innerHTML = `
+                        Language:
+                        <button class = "inactiveButton" onclick = "setLanguageTo('en-in')"> English (India) </button>
+                        <button onclick = "setLanguageTo('hin')"> Hindi </button>`;
+
+                    document.getElementById("credits").innerText = "Designed by Yashdeep Singh Fauzdar";
+                } else if (lang == "hin") {
+                    document.getElementById("html").lang = "hin";
+
+                    document.getElementById("header").title = "उपयोगकर्ता–संपादन योग्य (संपादित करने के लिए कोष्ठक के बीच क्लिक करें)";
+                    document.getElementById("header").innerHTML = "दूध का हिसाब (<span contenteditable></span>)";
+
+                    document.getElementById("th1").innerText = "मात्रा (L)";
+                    document.getElementById("th2").innerText = "दिन";
+                    document.getElementById("th3").innerText = "योग";
+                    document.getElementById("thTotal").innerText = "कुल दूध:";
+
+                    document.getElementById("askRate").innerText = "दूध की दर:";
+                    document.getElementById("askOutstanding").innerText = "बकाया राशि:";
+
+                    document.getElementById("buttonCalculate").innerText = "देय राशि की गणना करें";
+                    document.getElementById("tellGross").innerText = "Gross Amount:";
+                    document.getElementById("tellNet").innerText = "देय राशि:";
+
+                    document.getElementById("setLang").innerHTML = `
+                        भाषा:
+                        <button onclick = "setLanguageTo('en-in')"> अंग्रेज़ी (भारत) </button>
+                        <button class = "inactiveButton" onclick = "setLanguageTo('hin')"> हिंदी </button>`;
+
+                    document.getElementById("credits").innerText = "यशदीप सिंह फौज़दार द्वारा डिजाइन किया गया";
+                }
+            }
+
             function updateValues() {
                 let totalMilk = 0;
                 for (let i = 1; i <= noOfRows; i++) {
@@ -164,7 +219,7 @@
                 row.innerHTML = `
                     <td> <input id = "milkAmount${noOfRows}" type = "number" placeholder = "0" /> </td>
                     <td> <input id = "noOfDays${noOfRows}" type = "number" placeholder = "0" /> </td>
-                    <td> <input id = "totalInRow${noOfRows}" placeholder = "0" readonly /> </td>`;
+                    <td> <input id = "totalInRow${noOfRows}" value = "0" readonly /> </td>`;
                 document.getElementById("milkRecordTable").appendChild(row);
                 if (noOfRows == 2) {
                     document.getElementById("removeRowButton").removeAttribute("class");
@@ -175,14 +230,15 @@
                     document.getElementById(`rowNo${noOfRows}`).remove();
                     noOfRows -= 1;
                     if (noOfRows == 1) {
-                        document.getElementById("removeRowButton").setAttribute("class", "inactiveButton");
+                        document.getElementById("removeRowButton").class = "inactiveButton";
                     }
                 }
             }
 
             let noOfRows = 0;
-            addRowToTable();
+            setLanguageTo("en-in");
             updateValues();
+            addRowToTable();
         </script>
     </body>
 </html>
