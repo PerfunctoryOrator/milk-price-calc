@@ -147,7 +147,6 @@
                         <button onclick = "setLanguageTo('hi')"> Hindi </button>`;
 
                     document.getElementById("credits").innerText = "Designed by Yashdeep Singh Fauzdar";
-                    updateValues();
                 } else if (lang == "hi") {
                     document.getElementById("html").lang = "hi";
 
@@ -172,8 +171,9 @@
                         <button class = "inactiveButton" onclick = "setLanguageTo('hi')"> हिंदी </button>`;
 
                     document.getElementById("credits").innerText = "यशदीप सिंह फौज़दार द्वारा डिजाइन किया गया";
-                    updateValues();
                 }
+
+                updateValues();
             }
 
             function updateValues() {
