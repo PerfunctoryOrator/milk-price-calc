@@ -145,6 +145,7 @@
                         <button onclick = "setLanguageTo('hi')"> Hindi </button>`;
 
                     document.getElementById("credits").innerText = "Designed by Yashdeep Singh Fauzdar";
+                    updateValues();
                 } else if (lang == "hi") {
                     document.getElementById("html").lang = "hi";
 
@@ -160,7 +161,7 @@
                     document.getElementById("askOutstanding").innerText = "बकाया राशि:";
 
                     document.getElementById("buttonCalculate").innerText = "देय राशि की गणना करें";
-                    document.getElementById("tellGross").innerText = "Gross Amount:";
+                    document.getElementById("tellGross").innerText = "सकल राशि:";
                     document.getElementById("tellNet").innerText = "देय राशि:";
 
                     document.getElementById("setLang").innerHTML = `
@@ -169,6 +170,7 @@
                         <button class = "inactiveButton" onclick = "setLanguageTo('hi')"> हिंदी </button>`;
 
                     document.getElementById("credits").innerText = "यशदीप सिंह फौज़दार द्वारा डिजाइन किया गया";
+                    updateValues();
                 }
             }
 
@@ -194,7 +196,11 @@
                 document.getElementById("stillOutstandingAmount").innerText = "";
 
                 if (netPayable < 0) {
-                    document.getElementById("stillOutstandingAmount").innerText = `₹${-netPayable} will stand as outstanding amount (बकाया राशि) after the transaction takes place.`;
+                    if (document.getElementById("html").lang == "en-in") {
+                        document.getElementById("stillOutstandingAmount").innerText = `₹${-netPayable} will stand as outstanding amount after the transaction takes place.`;
+                    } else if (document.getElementById("html").lang == "hi") {
+                        document.getElementById("stillOutstandingAmount").innerText = `लेनदेन होने के बाद ₹${-netPayable} बकाया राशि के रूप में बचेंगे।`;
+                    }
                     netPayable = 0;
                 }
 
