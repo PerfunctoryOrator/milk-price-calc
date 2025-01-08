@@ -21,7 +21,7 @@
                 font-weight: bold;
                 padding: 8px;
             }
-            input, button {
+            input {
                 font-family: ui-monospace, system-ui;
                 border: 2px solid gainsboro;
                 padding: 8px 20px;
@@ -30,6 +30,8 @@
             button {
                 background-color: white;
                 margin-right: 20px;
+                border: 2px solid gainsboro;
+                padding: 8px 20px;
             }
             button:hover:not(.inactiveButton) {
                 background-color: var(--off-white);
@@ -104,7 +106,7 @@
                 <h3 id = "askOutstanding"></h3>
                 ₹ <input id = "outstandingAmount" type = "number" placeholder = "0" />
             </div>
-            <button id = "buttonCalculate" style = "font-family: system-ui; margin: 0px 20px 40px 20px;" onclick = "updateValues()"></button>
+            <button id = "buttonCalculate" style = "margin: 0px 20px 40px 20px;" onclick = "updateValues()"></button>
             <div>
                 <h3 id = "tellGross"></h3>
                 <span style = "margin-right: 2em;"> ₹ <input id = "readMilkRate" readonly /> × <input id = "readTotalMilk" readonly /> = </span>
