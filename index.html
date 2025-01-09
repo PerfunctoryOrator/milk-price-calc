@@ -99,7 +99,7 @@
         <div>
             <div>
                 <h3 id = "askRate"></h3>
-                <input id = "milkRate" type = "number" value = "55" placeholder = "0" />
+                <input id = "milkRate" type = "number" placeholder = "55" />
                 <span style = "margin-left: 20px;"> ₹L<sup>−1</sup> </span>
             </div>
             <div>
@@ -123,6 +123,8 @@
         <h4 style = "position: static; bottom: 0px; color: gainsboro;"> <i id = "credits"></i> </h4>
         <script>
             function setLanguageTo(lang) {
+                let stillOutstandingAmount = document.getElementById("stillOutstandingAmount");
+
                 if (lang == "en-in") {
                     document.getElementById("html").lang = "en-in";
 
@@ -140,6 +142,10 @@
                     document.getElementById("buttonCalculate").innerText = "Calculate Net Payable Amount";
                     document.getElementById("tellGross").innerText = "Gross Amount:";
                     document.getElementById("tellNet").innerText = "Net Payable:";
+
+                    if (stillOutstandingAmount.innerText != "") {
+                        stillOutstandingAmount.innerText = `₹${-netPayable} will stand as outstanding amount after the transaction takes place.`;
+                    }
 
                     document.getElementById("setLang").innerHTML = `
                         Language:
@@ -165,6 +171,10 @@
                     document.getElementById("tellGross").innerText = "सकल राशि:";
                     document.getElementById("tellNet").innerText = "देय राशि:";
 
+                    if (stillOutstandingAmount.innerText != "") {
+                        stillOutstandingAmount.innerText = `लेनदेन होने के बाद ₹${-netPayable} बकाया राशि के रूप में बचेंगे।`;
+                    }
+
                     document.getElementById("setLang").innerHTML = `
                         भाषा:
                         <button onclick = "setLanguageTo('en-in')"> अंग्रेज़ी (भारत) </button>
@@ -172,39 +182,39 @@
 
                     document.getElementById("credits").innerText = "यशदीप सिंह फौज़दार द्वारा डिजाइन किया गया";
                 }
-
-                updateValues();
             }
 
             function updateValues() {
                 let totalMilk = 0;
                 for (let i = 1; i <= noOfRows; i++) {
                     let milkAmount = Number(document.getElementById(`milkAmount${i}`).value);
-                    if (milkAmount < 0) {milkAmount = 0;}
+                    if (milkAmount < 0) {
+                        milkAmount = 0;
+                    }
                     let noOfDays = Number(document.getElementById(`noOfDays${i}`).value);
-                    if (noOfDays < 0) {noOfDays = 0;}
-                    if (noOfDays > 31) {noOfDays = 31;}
+                    if (noOfDays < 0) {
+                        noOfDays = 0;
+                    } else if (noOfDays > 31) {
+                        noOfDays = 31;
+                    }
                     let totalInRow = milkAmount * noOfDays;
                     document.getElementById(`milkAmount${i}`).value = milkAmount;
                     document.getElementById(`noOfDays${i}`).value = noOfDays;
                     document.getElementById(`totalInRow${i}`).value = totalInRow;
                     totalMilk += totalInRow;
                 }
-                let milkRate = Number(document.getElementById("milkRate").value);
-                if (milkRate < 0) {milkRate = 55;}
+                let milkRate = document.getElementById("milkRate").value;
+                if (milkRate == "") {
+                    milkRate = 55;
+                } else {
+                    milkRate = Number(milkRate);
+                    if (milkRate < 0) {
+                        milkRate = 55;
+                    }
+                }
                 let outstandingAmount = Number(document.getElementById("outstandingAmount").value);
                 let grossAmount = milkRate * totalMilk;
-                let netPayable = grossAmount - outstandingAmount;
-                document.getElementById("stillOutstandingAmount").innerText = "";
-
-                if (netPayable < 0) {
-                    if (document.getElementById("html").lang == "en-in") {
-                        document.getElementById("stillOutstandingAmount").innerText = `₹${-netPayable} will stand as outstanding amount after the transaction takes place.`;
-                    } else if (document.getElementById("html").lang == "hi") {
-                        document.getElementById("stillOutstandingAmount").innerText = `लेनदेन होने के बाद ₹${-netPayable} बकाया राशि के रूप में बचेंगे।`;
-                    }
-                    netPayable = 0;
-                }
+                netPayable = grossAmount - outstandingAmount;
 
                 document.getElementById("milkRate").value = milkRate;
                 document.getElementById("outstandingAmount").value = outstandingAmount;
@@ -217,7 +227,18 @@
 
                 document.getElementById("readGrossAmount").value = grossAmount;
                 document.getElementById("readOutstandingAmount").value = outstandingAmount;
-                document.getElementById("netPayable").value = netPayable;
+
+                document.getElementById("stillOutstandingAmount").innerText = "";
+                if (netPayable < 0) {
+                    if (document.getElementById("html").lang == "en-in") {
+                        document.getElementById("stillOutstandingAmount").innerText = `₹${-netPayable} will stand as outstanding amount after the transaction takes place.`;
+                    } else if (document.getElementById("html").lang == "hi") {
+                        document.getElementById("stillOutstandingAmount").innerText = `लेनदेन होने के बाद ₹${-netPayable} बकाया राशि के रूप में बचेंगे।`;
+                    }
+                    document.getElementById("netPayable").value = 0;
+                } else {
+                    document.getElementById("netPayable").value = netPayable;
+                }
             }
 
             function addRowToTable() {
@@ -243,10 +264,12 @@
                 }
             }
 
-            let noOfRows = 0;
+            let noOfRows = netPayable = 0;
             setLanguageTo("en-in");
             updateValues();
             addRowToTable();
+            document.getElementById("milkRate").value = "";
+            document.getElementById("outstandingAmount").value = milkRate;
         </script>
     </body>
 </html>
