@@ -100,13 +100,14 @@
             <div>
                 <h3 id = "askRate"></h3>
                 <input id = "milkRate" type = "number" placeholder = "55" />
-                <span style = "margin-left: 20px;"> ₹L<sup>−1</sup> </span>
+                <span id = "milkRateUnit" style = "margin-left: 20px;"></span>
             </div>
             <div>
                 <h3 id = "askOutstanding"></h3>
                 ₹ <input id = "outstandingAmount" type = "number" placeholder = "0" />
             </div>
-            <button id = "buttonCalculate" style = "margin: 0px 20px 40px 20px;" onclick = "updateValues()"></button>
+            <button id = "buttonCalculate" style = "margin: 20px 20px 40px 20px;" onclick = "updateValues()"></button>
+            <button id = "buttonReset" style = "margin: 20px 20px 40px 0px;" onclick = "resetValues()"></button>
             <div>
                 <h3 id = "tellGross"></h3>
                 <span style = "margin-right: 2em;"> ₹ <input id = "readMilkRate" readonly /> × <input id = "readTotalMilk" readonly /> = </span>
@@ -120,7 +121,7 @@
             <h3 id = "stillOutstandingAmount"></h3>
         </div>
         <div id = "setLang" style = "margin-left: 20px;"></div>
-        <h4 style = "position: static; bottom: 0px; color: gainsboro;"> <i id = "credits"></i> </h4>
+        <h4 style = "color: gainsboro; margin-top: 80px;"> <i id = "credits"></i> </h4>
         <script>
             function setLanguageTo(lang) {
                 let stillOutstandingAmount = document.getElementById("stillOutstandingAmount");
@@ -131,15 +132,18 @@
                     document.getElementById("header").title = "User-editable (click between the brackets to edit)";
                     document.getElementById("header").innerHTML = "Milk Account (<span contenteditable></span>)";
 
-                    document.getElementById("th1").innerText = "Quantity (L)";
+                    document.getElementById("th1").innerText = "Quantity (in Litres)";
                     document.getElementById("th2").innerText = "No. of Days";
                     document.getElementById("th3").innerText = "Total";
                     document.getElementById("thTotal").innerText = "Total Milk:";
 
                     document.getElementById("askRate").innerText = "Milk Rate:";
+                    document.getElementById("milkRateUnit").innerText = "₹ per Litre";
                     document.getElementById("askOutstanding").innerText = "Outstanding Amount:";
 
                     document.getElementById("buttonCalculate").innerText = "Calculate Net Payable Amount";
+                    document.getElementById("buttonReset").innerText = "Reset";
+
                     document.getElementById("tellGross").innerText = "Gross Amount:";
                     document.getElementById("tellNet").innerText = "Net Payable:";
 
@@ -149,7 +153,7 @@
 
                     document.getElementById("setLang").innerHTML = `
                         Language:
-                        <button class = "inactiveButton" onclick = "setLanguageTo('en-in')"> English (India) </button>
+                        <button class = "inactiveButton" style = "margin-left: 20px;" onclick = "setLanguageTo('en-in')"> English (India) </button>
                         <button onclick = "setLanguageTo('hi')"> Hindi </button>`;
 
                     document.getElementById("credits").innerText = "Designed by Yashdeep Singh Fauzdar";
@@ -159,15 +163,18 @@
                     document.getElementById("header").title = "उपयोगकर्ता–संपादन योग्य (संपादित करने के लिए कोष्ठक के बीच क्लिक करें)";
                     document.getElementById("header").innerHTML = "दूध का हिसाब (<span contenteditable></span>)";
 
-                    document.getElementById("th1").innerText = "मात्रा (L)";
+                    document.getElementById("th1").innerText = "मात्रा (लीटरों में)";
                     document.getElementById("th2").innerText = "दिन";
                     document.getElementById("th3").innerText = "योग";
                     document.getElementById("thTotal").innerText = "कुल दूध:";
 
                     document.getElementById("askRate").innerText = "दूध की दर:";
+                    document.getElementById("milkRateUnit").innerText = "₹ प्रति लीटर";
                     document.getElementById("askOutstanding").innerText = "बकाया राशि:";
 
                     document.getElementById("buttonCalculate").innerText = "देय राशि की गणना करें";
+                    document.getElementById("buttonReset").innerText = "रीसेट करें";
+
                     document.getElementById("tellGross").innerText = "सकल राशि:";
                     document.getElementById("tellNet").innerText = "देय राशि:";
 
@@ -177,7 +184,7 @@
 
                     document.getElementById("setLang").innerHTML = `
                         भाषा:
-                        <button onclick = "setLanguageTo('en-in')"> अंग्रेज़ी (भारत) </button>
+                        <button style = "margin-top: 20px; margin-left: 20px;" onclick = "setLanguageTo('en-in')"> अंग्रेज़ी (भारत) </button>
                         <button class = "inactiveButton" onclick = "setLanguageTo('hi')"> हिंदी </button>`;
 
                     document.getElementById("credits").innerText = "यशदीप सिंह फौज़दार द्वारा डिजाइन किया गया";
@@ -240,6 +247,15 @@
                     document.getElementById("netPayable").value = netPayable;
                 }
             }
+            function resetValues() {
+                document.getElementById("milkRecordTable").innerText = "";
+                noOfRows = netPayable = 0;
+                document.getElementById("outstandingAmount").value = "";
+                updateValues();
+                addRowToTable();
+                document.getElementById("milkRate").value = "";
+                document.getElementById("outstandingAmount").value = milkRate;
+            }
 
             function addRowToTable() {
                 noOfRows += 1;
@@ -259,7 +275,7 @@
                     document.getElementById(`rowNo${noOfRows}`).remove();
                     noOfRows -= 1;
                     if (noOfRows == 1) {
-                        document.getElementById("removeRowButton").class = "inactiveButton";
+                        document.getElementById("removeRowButton").setAttribute("class", "inactiveButton");
                     }
                 }
             }
