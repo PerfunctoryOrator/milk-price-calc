@@ -77,7 +77,9 @@
         </style>
     </head>
     <body style = "width: max-content;">
-        <h1 id = "header"></h1>
+        <h1 id = "header">
+            <span id = "headerDesc" contenteditable></span>
+        </h1>
         <table>
             <thead> <tr>
                 <th id = "th1"></th>
@@ -131,7 +133,7 @@
                     document.getElementById("html").lang = "en-in";
 
                     document.getElementById("header").title = "User-editable (click between the brackets to edit)";
-                    document.getElementById("header").innerHTML = "Milk Account (<span contenteditable></span>)";
+                    document.getElementById("header").innerHTML = `Milk Account (<span id = "headerDesc" contenteditable>${document.getElementById("headerDesc").innerText}</span>)`;
 
                     document.getElementById("th1").innerText = "Quantity (in Litres)";
                     document.getElementById("th2").innerText = "No. of Days";
@@ -164,7 +166,7 @@
                     document.getElementById("html").lang = "hi";
 
                     document.getElementById("header").title = "उपयोगकर्ता–संपादन योग्य (संपादित करने के लिए कोष्ठक के बीच क्लिक करें)";
-                    document.getElementById("header").innerHTML = "दूध का हिसाब (<span contenteditable></span>)";
+                    document.getElementById("header").innerHTML = `दूध का हिसाब (<span id = "headerDesc" contenteditable>${document.getElementById("headerDesc").innerText}</span>)`;
 
                     document.getElementById("th1").innerText = "मात्रा (लीटरों में)";
                     document.getElementById("th2").innerText = "दिन";
