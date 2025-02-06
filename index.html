@@ -129,8 +129,8 @@
             function setLanguageTo(lang) {
                 let stillOutstandingAmount = document.getElementById("stillOutstandingAmount");
 
-                if (lang == "en-in") {
-                    document.getElementById("html").lang = "en-in";
+                if (lang == "en-IN") {
+                    document.getElementById("html").lang = "en-IN";
 
                     document.getElementById("header").title = "User-editable (click between the brackets to edit)";
                     document.getElementById("header").innerHTML = `Milk Account (<span id = "headerDesc" contenteditable>${document.getElementById("headerDesc").innerText}</span>)`;
@@ -156,7 +156,7 @@
 
                     document.getElementById("setLang").innerHTML = `
                         Language:
-                        <button class = "inactiveButton" style = "margin-left: 20px;" onclick = "setLanguageTo('en-in')"> English (India) </button>
+                        <button class = "inactiveButton" style = "margin-left: 20px;" onclick = "setLanguageTo('en-IN')"> English (India) </button>
                         <button onclick = "setLanguageTo('hi')"> Hindi </button>`;
 
                     document.getElementById("buttonPrint").innerText = "Print";
@@ -189,7 +189,7 @@
 
                     document.getElementById("setLang").innerHTML = `
                         भाषा:
-                        <button style = "margin-top: 20px; margin-left: 20px;" onclick = "setLanguageTo('en-in')"> अंग्रेज़ी (भारत) </button>
+                        <button style = "margin-top: 20px; margin-left: 20px;" onclick = "setLanguageTo('en-IN')"> अंग्रेज़ी (भारत) </button>
                         <button class = "inactiveButton" onclick = "setLanguageTo('hi')"> हिंदी </button>`;
 
                     document.getElementById("buttonPrint").innerText = "प्रिंट करें";
@@ -292,7 +292,7 @@
             }
 
             let noOfRows = netPayable = 0;
-            setLanguageTo("en-in");
+            setLanguageTo("en-IN");
             updateValues();
             addRowToTable();
             document.getElementById("milkRate").value = "";
