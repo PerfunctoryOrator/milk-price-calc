@@ -7,7 +7,7 @@ A simple web-based Milk Price Calculator that helps users compute the total cost
 - Calculates gross amount based on the given milk rate.
 - Computes the net payable amount after considering outstanding balances.
 - Supports multiple languages (English and Hindi).
-- Responsive UI with light and dark mode support.
+- Responsive UI with light and dark mode support
 
 ## Installation
 Simply download or clone the repository and open `index.html` in a web browser.
