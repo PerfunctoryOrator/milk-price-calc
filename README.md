@@ -27,5 +27,5 @@ cd milk-price-calc
 ## Contributing
 Feel free to fork the repository, submit issues, or contribute improvements.
 
-## License
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/PerfunctoryOrator/milk-price-calc/blob/main/LICENSE) file for more details.
+## Licence
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
