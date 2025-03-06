@@ -28,4 +28,4 @@ cd milk-price-calc
 Feel free to fork the repository, submit issues, or contribute improvements.
 
 ## Licence
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the MIT licence. See the [LICENSE](LICENSE) file for more details.
