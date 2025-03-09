@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 
-<html id = "html">
+<html>
     <head>
         <meta name = "google-site-verification" content = "SgHsyBjRk9hujHsLjvXAa6a-775GwMKcGfRNNdM3Jpc" />
         <meta charset = "utf-8" />
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0" />
         <title> Milk Price Calculator </title>
         <link rel = "canonical" href = "" />
         <link rel = "icon" type = "image/x-icon" href = "milk-bottle.ico" />
         <style>
             :root {
-                --dark-grey: rgb(40, 40, 40);
+                --dark-gray: rgb(40, 40, 40);
                 --off-white: rgb(245, 245, 245);
                 --steel-blue: rgb(70, 130, 180);
                 --deep-coral: rgb(205, 92, 68);
@@ -40,7 +41,7 @@
                 text-align: center;
                 text-decoration: underline;
             }
-            h3, h4 {
+            h3 {
                 display: inline-block;
                 margin-left: 20px;
                 margin-right: 2em;
@@ -50,8 +51,11 @@
             th, h3 {font-size: 1.3em;}
 
             .inactiveButton {
-                color: grey;
+                color: gray;
                 background-color: gainsboro;
+            }
+            .faultyInput {
+                background-color: peachpuff;
             }
 
             #totalMilk, #readTotalMilk {color: coral;}
@@ -63,7 +67,7 @@
             @media (prefers-color-scheme: dark) {
                 body, input, button {
                     color: var(--off-white);
-                    background-color: var(--dark-grey);
+                    background-color: var(--dark-gray);
                 }
                 button:hover:not(.inactiveButton) {
                     background-color: black;
@@ -101,15 +105,13 @@
         <div>
             <div>
                 <h3 id = "askRate"></h3>
-                ₹ <input id = "milkRate" type = "number" placeholder = "55" />
+                ₹ <input id = "milkRate" type = "number" value = "0" oninput = "updateValues()" />
                 <span id = "milkRateUnit" style = ""></span>
             </div>
             <div>
                 <h3 id = "askOutstanding"></h3>
-                ₹ <input id = "outstandingAmount" type = "number" placeholder = "0" />
+                ₹ <input id = "outstandingAmount" type = "number" value = "0" oninput = "updateValues()" />
             </div>
-            <button id = "buttonCalculate" style = "margin: 20px 20px 40px 20px;" onclick = "updateValues()"></button>
-            <button id = "buttonReset" style = "margin: 20px 20px 40px 0px;" onclick = "resetValues()"></button>
             <div>
                 <h3 id = "tellGross"></h3>
                 <span style = "margin-right: 2em;"> ₹ <input id = "readMilkRate" readonly /> × <input id = "readTotalMilk" readonly /> = </span>
@@ -117,20 +119,18 @@
             </div>
             <div>
                 <h3 id = "tellNet"></h3>
-                <h3 style = "margin-right: 2em;"> ₹ ( <input id = "readGrossAmount" readonly /> − <input id = "readOutstandingAmount" readonly /> ) = </h3>
+                <span style = "margin-right: 2em;"> ₹ ( <input id = "readGrossAmount" readonly /> − <input id = "readOutstandingAmount" readonly /> ) = </span>
                 <h3> ₹ <input id = "netPayable" readonly /> </h3>
             </div>
             <h3 id = "stillOutstandingAmount"></h3>
         </div>
         <div id = "setLang" style = "margin-left: 20px;"></div>
-        <button id = "buttonPrint" style = "display: block; margin: 40px 0px 0px 20px;" onclick = "printPage()"></button>
-        <h4 style = "color: gainsboro; margin-top: 80px;"> <i id = "credits"></i> </h4>
         <script>
             function setLanguageTo(lang) {
                 let stillOutstandingAmount = document.getElementById("stillOutstandingAmount");
 
-                if (lang == "en-IN") {
-                    document.getElementById("html").lang = "en-IN";
+                if (lang === "en-IN") {
+                    document.querySelector("html").lang = "en-IN";
 
                     document.getElementById("header").title = "User-editable (click between the brackets to edit)";
                     document.getElementById("header").innerHTML = `Milk Account (<span id = "headerDesc" contenteditable>${document.getElementById("headerDesc").innerText}</span>)`;
@@ -144,9 +144,6 @@
                     document.getElementById("milkRateUnit").innerText = " per Litre";
                     document.getElementById("askOutstanding").innerText = "Outstanding Amount:";
 
-                    document.getElementById("buttonCalculate").innerText = "Calculate Net Payable Amount";
-                    document.getElementById("buttonReset").innerText = "Reset";
-
                     document.getElementById("tellGross").innerText = "Gross Amount:";
                     document.getElementById("tellNet").innerText = "Net Payable:";
 
@@ -158,12 +155,8 @@
                         Language:
                         <button class = "inactiveButton" style = "margin-left: 20px;" onclick = "setLanguageTo('en-IN')"> English (India) </button>
                         <button onclick = "setLanguageTo('hi')"> Hindi </button>`;
-
-                    document.getElementById("buttonPrint").innerText = "Print";
-
-                    document.getElementById("credits").innerText = "Designed by Yashdeep Singh Fauzdar";
-                } else if (lang == "hi") {
-                    document.getElementById("html").lang = "hi";
+                } else if (lang === "hi") {
+                    document.querySelector("html").lang = "hi";
 
                     document.getElementById("header").title = "उपयोगकर्ता–संपादन योग्य (संपादित करने के लिए कोष्ठक के बीच क्लिक करें)";
                     document.getElementById("header").innerHTML = `दूध का हिसाब (<span id = "headerDesc" contenteditable>${document.getElementById("headerDesc").innerText}</span>)`;
@@ -177,9 +170,6 @@
                     document.getElementById("milkRateUnit").innerText = " प्रति लीटर";
                     document.getElementById("askOutstanding").innerText = "बकाया राशि:";
 
-                    document.getElementById("buttonCalculate").innerText = "देय राशि की गणना करें";
-                    document.getElementById("buttonReset").innerText = "रीसेट करें";
-
                     document.getElementById("tellGross").innerText = "सकल राशि:";
                     document.getElementById("tellNet").innerText = "देय राशि:";
 
@@ -191,77 +181,62 @@
                         भाषा:
                         <button style = "margin-top: 20px; margin-left: 20px;" onclick = "setLanguageTo('en-IN')"> अंग्रेज़ी (भारत) </button>
                         <button class = "inactiveButton" onclick = "setLanguageTo('hi')"> हिंदी </button>`;
-
-                    document.getElementById("buttonPrint").innerText = "प्रिंट करें";
-
-                    document.getElementById("credits").innerText = "यशदीप सिंह फौज़दार द्वारा डिजाइन किया गया";
                 }
             }
 
-            function updateValues() {
+            function updateValues(recursion) {
+                document.getElementById("totalMilk").value = "0";
+                document.getElementById("readMilkRate").value = "0";
+                document.getElementById("grossAmount").value = "0";
+                document.getElementById("readGrossAmount").value = "0";
+                document.getElementById("readOutstandingAmount").value = "0";
+                document.getElementById("netPayable").value = "0";
                 let totalMilk = 0;
                 for (let i = 1; i <= noOfRows; i++) {
-                    let milkAmount = Number(document.getElementById(`milkAmount${i}`).value);
-                    if (milkAmount < 0) {
-                        milkAmount = 0;
-                    }
-                    let noOfDays = Number(document.getElementById(`noOfDays${i}`).value);
-                    if (noOfDays < 0) {
-                        noOfDays = 0;
-                    } else if (noOfDays > 31) {
-                        noOfDays = 31;
-                    }
-                    let totalInRow = milkAmount * noOfDays;
-                    document.getElementById(`milkAmount${i}`).value = milkAmount;
-                    document.getElementById(`noOfDays${i}`).value = noOfDays;
-                    document.getElementById(`totalInRow${i}`).value = totalInRow;
-                    totalMilk += totalInRow;
+                    if (!recursion) calcCategory(String(i), true);
+                    totalMilk += Number(document.getElementById(`totalInRow${i}`).value);
                 }
-                let milkRate = document.getElementById("milkRate").value;
-                if (milkRate == "") {
-                    milkRate = 55;
-                } else {
-                    milkRate = Number(milkRate);
-                    if (milkRate < 0) {
-                        milkRate = 55;
-                    }
-                }
-                let outstandingAmount = Number(document.getElementById("outstandingAmount").value);
-                let grossAmount = milkRate * totalMilk;
-                netPayable = grossAmount - outstandingAmount;
-
-                document.getElementById("milkRate").value = milkRate;
-                document.getElementById("outstandingAmount").value = outstandingAmount;
-
                 document.getElementById("totalMilk").value = totalMilk;
-
-                document.getElementById("readMilkRate").value = milkRate;
                 document.getElementById("readTotalMilk").value = totalMilk;
-                document.getElementById("grossAmount").value = grossAmount;
+                const milkRateHolder = document.getElementById("milkRate");
+                const outstandingAmountHolder = document.getElementById("outstandingAmount");
+                milkRateHolder.className = "";
+                outstandingAmountHolder.className = "";
+                if (!(Number(milkRateHolder.value) && Number(outstandingAmountHolder.value))) {
+                    if (Number(milkRateHolder.value)) {
+                        milkRateHolder.value = Number(milkRateHolder.value);
+                        document.getElementById("readMilkRate").value = milkRateHolder.value;
+                    } else if (milkRateHolder.value !== "0") milkRateHolder.className = "faultyInput";
+                    if (Number(outstandingAmountHolder.value)) {
+                        outstandingAmountHolder.value = Number(outstandingAmountHolder.value);
+                        document.getElementById("readOutstandingAmount").value = outstandingAmountHolder.value;
+                    } else if (outstandingAmountHolder.value !== "0") outstandingAmountHolder.className = "faultyInput";
+                    return;
+                }
+                milkRateHolder.value = Number(milkRateHolder.value);
+                document.getElementById("readMilkRate").value = milkRateHolder.value;
+                outstandingAmountHolder.value = Number(outstandingAmountHolder.value);
+                document.getElementById("readOutstandingAmount").value = outstandingAmountHolder.value;
+                const grossAmount = milkRateHolder.value * totalMilk;
+                netPayable = grossAmount - outstandingAmountHolder.value;
 
+                document.getElementById("milkRate").value = milkRateHolder.value;
+                document.getElementById("outstandingAmount").value = outstandingAmountHolder.value;
+                document.getElementById("grossAmount").value = grossAmount;
                 document.getElementById("readGrossAmount").value = grossAmount;
-                document.getElementById("readOutstandingAmount").value = outstandingAmount;
+
 
                 document.getElementById("stillOutstandingAmount").innerText = "";
                 if (netPayable < 0) {
-                    if (document.getElementById("html").lang == "en-in") {
+                    if (document.querySelector("html").lang === "en-IN") {
                         document.getElementById("stillOutstandingAmount").innerText = `₹${-netPayable} will stand as outstanding amount after the transaction takes place.`;
-                    } else if (document.getElementById("html").lang == "hi") {
+                    } else if (document.querySelector("html").lang === "hi") {
                         document.getElementById("stillOutstandingAmount").innerText = `लेनदेन होने के बाद ₹${-netPayable} बकाया राशि के रूप में बचेंगे।`;
                     }
-                    document.getElementById("netPayable").value = 0;
+                    document.getElementById("netPayable").value = "0";
                 } else {
                     document.getElementById("netPayable").value = netPayable;
                 }
-            }
-            function resetValues() {
-                document.getElementById("milkRecordTable").innerText = "";
-                noOfRows = netPayable = 0;
-                document.getElementById("outstandingAmount").value = "";
-                updateValues();
-                addRowToTable();
-                document.getElementById("milkRate").value = "";
-                document.getElementById("outstandingAmount").value = milkRate;
             }
 
             function addRowToTable() {
@@ -269,11 +244,11 @@
                 const row = document.createElement("tr");
                 row.id = `rowNo${noOfRows}`;
                 row.innerHTML = `
-                    <td> <input id = "milkAmount${noOfRows}" type = "number" placeholder = "0" /> </td>
-                    <td> <input id = "noOfDays${noOfRows}" type = "number" placeholder = "0" /> </td>
+                    <td> <input id = "milkAmount${noOfRows}" type = "number" value = "0" oninput = "calcCategory(id)" /> </td>
+                    <td> <input id = "noOfDays${noOfRows}" type = "number" value = "0"  oninput = "calcCategory(id)" /> </td>
                     <td> <input id = "totalInRow${noOfRows}" value = "0" readonly /> </td>`;
                 document.getElementById("milkRecordTable").appendChild(row);
-                if (noOfRows == 2) {
+                if (noOfRows === 2) {
                     document.getElementById("removeRowButton").removeAttribute("class");
                 }
             }
@@ -281,22 +256,36 @@
                 if (noOfRows > 1) {
                     document.getElementById(`rowNo${noOfRows}`).remove();
                     noOfRows -= 1;
-                    if (noOfRows == 1) {
+                    if (noOfRows === 1) {
                         document.getElementById("removeRowButton").setAttribute("class", "inactiveButton");
                     }
                 }
             }
 
-            function printPage() {
-                print();
+            function calcCategory(id, recursion) {
+                const rowNumber = parseInt(id.slice(-1));
+                document.getElementById(`totalInRow${rowNumber}`).value = "0";
+                const milkAmountHolder = document.getElementById(`milkAmount${rowNumber}`);
+                const noOfDaysHolder = document.getElementById(`noOfDays${rowNumber}`);
+                milkAmountHolder.className = "";
+                noOfDaysHolder.className = "";
+                if (!(Number(milkAmountHolder.value) && parseInt(noOfDaysHolder.value))) {
+                    if (Number(milkAmountHolder.value)) milkAmountHolder.value = Number(milkAmountHolder.value);
+                    else if (milkAmountHolder.value !== "0") milkAmountHolder.className = "faultyInput";
+                    if (parseInt(noOfDaysHolder.value)) noOfDaysHolder.value = parseInt(noOfDaysHolder.value);
+                        else if (noOfDaysHolder.value !== "0") noOfDaysHolder.className = "faultyInput";
+                    return;
+                }
+                milkAmountHolder.value = Number(milkAmountHolder.value);
+                noOfDaysHolder.value = parseInt(noOfDaysHolder.value);
+                document.getElementById(`totalInRow${rowNumber}`).value = milkAmountHolder.value * noOfDaysHolder.value;
+                if (!recursion) updateValues(true);
             }
 
             let noOfRows = netPayable = 0;
             setLanguageTo("en-IN");
             updateValues();
             addRowToTable();
-            document.getElementById("milkRate").value = "";
-            document.getElementById("outstandingAmount").value = milkRate;
         </script>
     </body>
 </html>
