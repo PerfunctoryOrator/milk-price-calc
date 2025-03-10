@@ -16,6 +16,9 @@
                 --deep-coral: rgb(205, 92, 68);
             }
 
+            body{
+
+            }
             body, input, button {
                 font-family: system-ui;
                 font-size: 1em;
@@ -81,9 +84,25 @@
                 #outstandingAmount, #readOutstandingAmount {color: greenyellow;}
                 #netPayable {color: gold;}
             }
+            @media (max-width: 880px) {
+                body {
+                    width: auto;
+                    padding: 8px;
+                }
+                table {
+                    width: 100%;
+                }
+                input {
+                    max-width: 80px;
+                }
+                h3 {
+                    margin-left: 0;
+                    margin-right: 0.5em;
+                }
+            }
         </style>
     </head>
-    <body style = "width: max-content;">
+    <body>
         <h1 id = "header">
             <span id = "headerDesc" contenteditable></span>
         </h1>
