@@ -55,7 +55,7 @@
                 background-color: gainsboro;
             }
             .faultyInput {
-                background-color: peachpuff;
+                background-color: coral;
             }
 
             #totalMilk, #readTotalMilk {color: coral;}
@@ -71,6 +71,9 @@
                 }
                 button:hover:not(.inactiveButton) {
                     background-color: black;
+                }
+                .faultyInput {
+                    background-color: var(--deep-coral);
                 }
                 #totalMilk, #readTotalMilk {color: var(--deep-coral);}
                 #milkRate, #readMilkRate {color: skyblue;}
@@ -204,24 +207,18 @@
                 outstandingAmountHolder.className = "";
                 if (!(Number(milkRateHolder.value) && Number(outstandingAmountHolder.value))) {
                     if (Number(milkRateHolder.value)) {
-                        milkRateHolder.value = Number(milkRateHolder.value);
                         document.getElementById("readMilkRate").value = milkRateHolder.value;
                     } else if (milkRateHolder.value !== "0") milkRateHolder.className = "faultyInput";
                     if (Number(outstandingAmountHolder.value)) {
-                        outstandingAmountHolder.value = Number(outstandingAmountHolder.value);
                         document.getElementById("readOutstandingAmount").value = outstandingAmountHolder.value;
                     } else if (outstandingAmountHolder.value !== "0") outstandingAmountHolder.className = "faultyInput";
-                    return;
+                } else {
+                    document.getElementById("readMilkRate").value = milkRateHolder.value;
+                    document.getElementById("readOutstandingAmount").value = outstandingAmountHolder.value;
                 }
-                milkRateHolder.value = Number(milkRateHolder.value);
-                document.getElementById("readMilkRate").value = milkRateHolder.value;
-                outstandingAmountHolder.value = Number(outstandingAmountHolder.value);
-                document.getElementById("readOutstandingAmount").value = outstandingAmountHolder.value;
                 const grossAmount = milkRateHolder.value * totalMilk;
                 netPayable = grossAmount - outstandingAmountHolder.value;
 
-                document.getElementById("milkRate").value = milkRateHolder.value;
-                document.getElementById("outstandingAmount").value = outstandingAmountHolder.value;
                 document.getElementById("grossAmount").value = grossAmount;
                 document.getElementById("readGrossAmount").value = grossAmount;
 
@@ -270,15 +267,11 @@
                 milkAmountHolder.className = "";
                 noOfDaysHolder.className = "";
                 if (!(Number(milkAmountHolder.value) && parseInt(noOfDaysHolder.value))) {
-                    if (Number(milkAmountHolder.value)) milkAmountHolder.value = Number(milkAmountHolder.value);
-                    else if (milkAmountHolder.value !== "0") milkAmountHolder.className = "faultyInput";
-                    if (parseInt(noOfDaysHolder.value)) noOfDaysHolder.value = parseInt(noOfDaysHolder.value);
-                        else if (noOfDaysHolder.value !== "0") noOfDaysHolder.className = "faultyInput";
-                    return;
+                    if (!Number(milkAmountHolder.value) && milkAmountHolder.value !== "0") milkAmountHolder.className = "faultyInput";
+                    if (!parseInt(noOfDaysHolder.value) && noOfDaysHolder.value !== "0") noOfDaysHolder.className = "faultyInput";
+                } else {
+                    document.getElementById(`totalInRow${rowNumber}`).value = milkAmountHolder.value * noOfDaysHolder.value;
                 }
-                milkAmountHolder.value = Number(milkAmountHolder.value);
-                noOfDaysHolder.value = parseInt(noOfDaysHolder.value);
-                document.getElementById(`totalInRow${rowNumber}`).value = milkAmountHolder.value * noOfDaysHolder.value;
                 if (!recursion) updateValues(true);
             }
 

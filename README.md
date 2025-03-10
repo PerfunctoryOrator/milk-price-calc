@@ -21,8 +21,7 @@ cd milk-price-calc
 1. Open `index.html` in a web browser.
 2. Enter the milk quantity and number of days.
 3. Provide the milk rate and any outstanding amount.
-4. Click on ‘Calculate Net Payable Amount‘ to see the final payable amount.
-5. Optionally, print the results using the ‘Print’ button.
+4. The final payable amount automatically gets updated.
 
 ## Contributing
 Feel free to fork the repository, submit issues, or contribute improvements.
