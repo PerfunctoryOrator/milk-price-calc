@@ -2,302 +2,86 @@
 
 <html>
     <head>
-        <meta name = "google-site-verification" content = "SgHsyBjRk9hujHsLjvXAa6a-775GwMKcGfRNNdM3Jpc" />
-        <meta charset = "utf-8" />
-        <meta name = "viewport" content = "width=device-width, initial-scale=1.0" />
-        <title> Milk Price Calculator </title>
-        <link rel = "canonical" href = "" />
-        <link rel = "icon" type = "image/x-icon" href = "milk-bottle.ico" />
-        <style>
-            :root {
-                --dark-gray: rgb(40, 40, 40);
-                --off-white: rgb(245, 245, 245);
-                --steel-blue: rgb(70, 130, 180);
-                --deep-coral: rgb(205, 92, 68);
-            }
-
-            body{
-
-            }
-            body, input, button {
-                font-family: system-ui;
-                font-size: 1em;
-                font-weight: bold;
-                padding: 8px;
-            }
-            input {
-                font-family: ui-monospace, system-ui;
-                border: 2px solid gainsboro;
-                padding: 8px 20px;
-            }
-            input:read-only {text-align: center;}
-            button {
-                background-color: white;
-                margin-right: 20px;
-                border: 2px solid gainsboro;
-                padding: 8px 20px;
-            }
-            button:hover:not(.inactiveButton) {
-                background-color: var(--off-white);
-            }
-            h1 {
-                text-align: center;
-                text-decoration: underline;
-            }
-            h3 {
-                display: inline-block;
-                margin-left: 20px;
-                margin-right: 2em;
-            }
-            table {margin-bottom: 16px;}
-            table td, table th {padding: 8px 20px;}
-            th, h3 {font-size: 1.3em;}
-
-            .inactiveButton {
-                color: gray;
-                background-color: gainsboro;
-            }
-            .faultyInput {
-                background-color: coral;
-            }
-
-            #totalMilk, #readTotalMilk {color: coral;}
-            #milkRate, #readMilkRate {color: var(--steel-blue);}
-            #grossAmount, #readGrossAmount {color: darkkhaki;}
-            #outstandingAmount, #readOutstandingAmount {color: green;}
-            #netPayable {color: goldenrod;}
-
-            @media (prefers-color-scheme: dark) {
-                body, input, button {
-                    color: var(--off-white);
-                    background-color: var(--dark-gray);
-                }
-                button:hover:not(.inactiveButton) {
-                    background-color: black;
-                }
-                .faultyInput {
-                    background-color: var(--deep-coral);
-                }
-                #totalMilk, #readTotalMilk {color: var(--deep-coral);}
-                #milkRate, #readMilkRate {color: skyblue;}
-                #grossAmount, #readGrossAmount {color: cornsilk;}
-                #outstandingAmount, #readOutstandingAmount {color: greenyellow;}
-                #netPayable {color: gold;}
-            }
-            @media (max-width: 880px) {
-                body {
-                    width: auto;
-                    padding: 8px;
-                }
-                table {
-                    width: 100%;
-                }
-                input {
-                    max-width: 80px;
-                }
-                h3 {
-                    margin-left: 0;
-                    margin-right: 0.5em;
-                }
-            }
-        </style>
+        <meta name="google-site-verification" content="SgHsyBjRk9hujHsLjvXAa6a-775GwMKcGfRNNdM3Jpc" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="whitesmoke" />
+        <title>Milk Price Calculator</title>
+        <link rel="canonical" href="" />
+        <link rel="icon" type="image/x-icon" href="milk-bottle.ico" />
+        <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
-        <h1 id = "header">
-            <span id = "headerDesc" contenteditable></span>
+        <h1 id="header">
+            <span id="headerDesc" contenteditable></span>
         </h1>
         <table>
-            <thead> <tr>
-                <th id = "th1"></th>
-                <th id = "th2"></th>
-                <th id = "th3"></th>
-            </tr> </thead>
-            <tbody id = "milkRecordTable"></tbody>
-            <tfoot>
-                <tr>
-                    <td>
-                        <button onclick = "addRowToTable()"> + </button>
-                        <button class = "inactiveButton" id = "removeRowButton" onclick = "removeRowFromTable()"> − </button>
-                    </td>
-                    <th id = "thTotal" style = "text-align: right;"></th>
-                    <td> <input id = "totalMilk" readonly /> </td>
-                </tr>
-            </tfoot>
+            <thead><tr>
+                <th id="th1"></th>
+                <th id="th2"></th>
+                <th id="th3"></th>
+            </tr></thead>
+            <tbody id="milkRecordTable"></tbody>
+            <tfoot><tr>
+                <td>
+                    <button onclick="addRowToTable()">+</button>
+                    <button class="inactiveButton" id="removeRowButton" onclick="removeRowFromTable()">−</button>
+                </td>
+                <th id="thTotal" style="text-align: right;"></th>
+                <td><input id="totalMilk" readonly /></td>
+            </tr></tfoot>
         </table>
         <div>
             <div>
-                <h3 id = "askRate"></h3>
-                ₹ <input id = "milkRate" type = "number" value = "0" oninput = "updateValues()" />
-                <span id = "milkRateUnit" style = ""></span>
+                <h3 id="askRate"></h3>
+                ₹
+                <input id="milkRate" type="number" value="0" oninput="updateValues(); saveMilkRate()" />
+                <span id="milkRateUnit"></span>
             </div>
             <div>
-                <h3 id = "askOutstanding"></h3>
-                ₹ <input id = "outstandingAmount" type = "number" value = "0" oninput = "updateValues()" />
+                <h3 id="askOutstanding"></h3>
+                ₹
+                <input id="outstandingAmount" type="number" value="0" oninput="updateValues()" />
             </div>
             <div>
-                <h3 id = "tellGross"></h3>
-                <span style = "margin-right: 2em;"> ₹ <input id = "readMilkRate" readonly /> × <input id = "readTotalMilk" readonly /> = </span>
-                ₹ <input id = "grossAmount" readonly />
+                <h3 id="tellGross"></h3>
+                <span style="margin-right: 2em;">
+                    ₹
+                    <input id="readMilkRate" readonly />
+                    ×
+                    <input id="readTotalMilk" readonly />
+                    =
+                </span>
+                ₹
+                <input id="grossAmount" readonly />
             </div>
             <div>
-                <h3 id = "tellNet"></h3>
-                <span style = "margin-right: 2em;"> ₹ ( <input id = "readGrossAmount" readonly /> − <input id = "readOutstandingAmount" readonly /> ) = </span>
-                <h3> ₹ <input id = "netPayable" readonly /> </h3>
+                <h3 id="tellNet"></h3>
+                <span style="margin-right: 2em;">
+                    ₹ (
+                    <input id="readGrossAmount" readonly />
+                    −
+                    <input id="readOutstandingAmount" readonly />
+                    ) =
+                </span>
+                <h3>
+                    ₹
+                    <input id="netPayable" readonly />
+                </h3>
             </div>
-            <h3 id = "stillOutstandingAmount"></h3>
+            <h3 id="stillOutstandingAmount"></h3>
+            <div id="storageMessage">
+                <div>
+                    <div>
+                        This page stores the milk rate entered by you in local storage to enhance user experience.
+                    </div>
+                    <div style="display: flex; justify-content: flex-end;">
+                        <button style="margin-top: 20px; margin-right: 0;" onclick="storageMessageReceived()">OK</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id = "setLang" style = "margin-left: 20px;"></div>
-        <script>
-            function setLanguageTo(lang) {
-                let stillOutstandingAmount = document.getElementById("stillOutstandingAmount");
-
-                if (lang === "en-IN") {
-                    document.querySelector("html").lang = "en-IN";
-
-                    document.getElementById("header").title = "User-editable (click between the brackets to edit)";
-                    document.getElementById("header").innerHTML = `Milk Account (<span id = "headerDesc" contenteditable>${document.getElementById("headerDesc").innerText}</span>)`;
-
-                    document.getElementById("th1").innerText = "Quantity (in Litres)";
-                    document.getElementById("th2").innerText = "No. of Days";
-                    document.getElementById("th3").innerText = "Total";
-                    document.getElementById("thTotal").innerText = "Total Milk:";
-
-                    document.getElementById("askRate").innerText = "Milk Rate:";
-                    document.getElementById("milkRateUnit").innerText = " per Litre";
-                    document.getElementById("askOutstanding").innerText = "Outstanding Amount:";
-
-                    document.getElementById("tellGross").innerText = "Gross Amount:";
-                    document.getElementById("tellNet").innerText = "Net Payable:";
-
-                    if (stillOutstandingAmount.innerText != "") {
-                        stillOutstandingAmount.innerText = `₹${-netPayable} will stand as outstanding amount after the transaction takes place.`;
-                    }
-
-                    document.getElementById("setLang").innerHTML = `
-                        Language:
-                        <button class = "inactiveButton" style = "margin-left: 20px;" onclick = "setLanguageTo('en-IN')"> English (India) </button>
-                        <button onclick = "setLanguageTo('hi')"> Hindi </button>`;
-                } else if (lang === "hi") {
-                    document.querySelector("html").lang = "hi";
-
-                    document.getElementById("header").title = "उपयोगकर्ता–संपादन योग्य (संपादित करने के लिए कोष्ठक के बीच क्लिक करें)";
-                    document.getElementById("header").innerHTML = `दूध का हिसाब (<span id = "headerDesc" contenteditable>${document.getElementById("headerDesc").innerText}</span>)`;
-
-                    document.getElementById("th1").innerText = "मात्रा (लीटरों में)";
-                    document.getElementById("th2").innerText = "दिन";
-                    document.getElementById("th3").innerText = "योग";
-                    document.getElementById("thTotal").innerText = "कुल दूध:";
-
-                    document.getElementById("askRate").innerText = "दूध की दर:";
-                    document.getElementById("milkRateUnit").innerText = " प्रति लीटर";
-                    document.getElementById("askOutstanding").innerText = "बकाया राशि:";
-
-                    document.getElementById("tellGross").innerText = "सकल राशि:";
-                    document.getElementById("tellNet").innerText = "देय राशि:";
-
-                    if (stillOutstandingAmount.innerText != "") {
-                        stillOutstandingAmount.innerText = `लेनदेन होने के बाद ₹${-netPayable} बकाया राशि के रूप में बचेंगे।`;
-                    }
-
-                    document.getElementById("setLang").innerHTML = `
-                        भाषा:
-                        <button style = "margin-top: 20px; margin-left: 20px;" onclick = "setLanguageTo('en-IN')"> अंग्रेज़ी (भारत) </button>
-                        <button class = "inactiveButton" onclick = "setLanguageTo('hi')"> हिंदी </button>`;
-                }
-            }
-
-            function updateValues(recursion) {
-                document.getElementById("totalMilk").value = "0";
-                document.getElementById("readMilkRate").value = "0";
-                document.getElementById("grossAmount").value = "0";
-                document.getElementById("readGrossAmount").value = "0";
-                document.getElementById("readOutstandingAmount").value = "0";
-                document.getElementById("netPayable").value = "0";
-                let totalMilk = 0;
-                for (let i = 1; i <= noOfRows; i++) {
-                    if (!recursion) calcCategory(String(i), true);
-                    totalMilk += Number(document.getElementById(`totalInRow${i}`).value);
-                }
-                document.getElementById("totalMilk").value = totalMilk;
-                document.getElementById("readTotalMilk").value = totalMilk;
-                const milkRateHolder = document.getElementById("milkRate");
-                const outstandingAmountHolder = document.getElementById("outstandingAmount");
-                milkRateHolder.className = "";
-                outstandingAmountHolder.className = "";
-                if (!(Number(milkRateHolder.value) && Number(outstandingAmountHolder.value))) {
-                    if (Number(milkRateHolder.value)) {
-                        document.getElementById("readMilkRate").value = milkRateHolder.value;
-                    } else if (milkRateHolder.value !== "0") milkRateHolder.className = "faultyInput";
-                    if (Number(outstandingAmountHolder.value)) {
-                        document.getElementById("readOutstandingAmount").value = outstandingAmountHolder.value;
-                    } else if (outstandingAmountHolder.value !== "0") outstandingAmountHolder.className = "faultyInput";
-                } else {
-                    document.getElementById("readMilkRate").value = milkRateHolder.value;
-                    document.getElementById("readOutstandingAmount").value = outstandingAmountHolder.value;
-                }
-                const grossAmount = milkRateHolder.value * totalMilk;
-                netPayable = grossAmount - outstandingAmountHolder.value;
-
-                document.getElementById("grossAmount").value = grossAmount;
-                document.getElementById("readGrossAmount").value = grossAmount;
-
-
-                document.getElementById("stillOutstandingAmount").innerText = "";
-                if (netPayable < 0) {
-                    if (document.querySelector("html").lang === "en-IN") {
-                        document.getElementById("stillOutstandingAmount").innerText = `₹${-netPayable} will stand as outstanding amount after the transaction takes place.`;
-                    } else if (document.querySelector("html").lang === "hi") {
-                        document.getElementById("stillOutstandingAmount").innerText = `लेनदेन होने के बाद ₹${-netPayable} बकाया राशि के रूप में बचेंगे।`;
-                    }
-                    document.getElementById("netPayable").value = "0";
-                } else {
-                    document.getElementById("netPayable").value = netPayable;
-                }
-            }
-
-            function addRowToTable() {
-                noOfRows += 1;
-                const row = document.createElement("tr");
-                row.id = `rowNo${noOfRows}`;
-                row.innerHTML = `
-                    <td> <input id = "milkAmount${noOfRows}" type = "number" value = "0" oninput = "calcCategory(id)" /> </td>
-                    <td> <input id = "noOfDays${noOfRows}" type = "number" value = "0"  oninput = "calcCategory(id)" /> </td>
-                    <td> <input id = "totalInRow${noOfRows}" value = "0" readonly /> </td>`;
-                document.getElementById("milkRecordTable").appendChild(row);
-                if (noOfRows === 2) {
-                    document.getElementById("removeRowButton").removeAttribute("class");
-                }
-            }
-            function removeRowFromTable() {
-                if (noOfRows > 1) {
-                    document.getElementById(`rowNo${noOfRows}`).remove();
-                    noOfRows -= 1;
-                    if (noOfRows === 1) {
-                        document.getElementById("removeRowButton").setAttribute("class", "inactiveButton");
-                    }
-                }
-            }
-
-            function calcCategory(id, recursion) {
-                const rowNumber = parseInt(id.slice(-1));
-                document.getElementById(`totalInRow${rowNumber}`).value = "0";
-                const milkAmountHolder = document.getElementById(`milkAmount${rowNumber}`);
-                const noOfDaysHolder = document.getElementById(`noOfDays${rowNumber}`);
-                milkAmountHolder.className = "";
-                noOfDaysHolder.className = "";
-                if (!(Number(milkAmountHolder.value) && parseInt(noOfDaysHolder.value))) {
-                    if (!Number(milkAmountHolder.value) && milkAmountHolder.value !== "0") milkAmountHolder.className = "faultyInput";
-                    if (!parseInt(noOfDaysHolder.value) && noOfDaysHolder.value !== "0") noOfDaysHolder.className = "faultyInput";
-                } else {
-                    document.getElementById(`totalInRow${rowNumber}`).value = milkAmountHolder.value * noOfDaysHolder.value;
-                }
-                if (!recursion) updateValues(true);
-            }
-
-            let noOfRows = netPayable = 0;
-            setLanguageTo("en-IN");
-            updateValues();
-            addRowToTable();
-        </script>
+        <div id="setLang" style="margin-left: 20px;"></div>
+        <script src="script.js"></script>
     </body>
 </html>
